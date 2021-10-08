@@ -14,8 +14,8 @@ Set up (the latest version of) [RStudio Package Manager](https://www.rstudio.com
 
 * `rstudio_package_manager_version` [default: `2021.09.0-1`]: Version to install
 * `rstudio_package_manager_install` [default: `[]`]: Additional packages to install (e.g. `r-base`)
-* `rstudio_package_manager_www_port` [default: `3939`]: The port you want RStudio Package Manager to listen on
-* `rstudio_package_manager_config_override` [default: `""`]: If you know what you're doing, you can override or add to any of `rstudio-package-manager.gcfg` config options.
+* `rstudio_package_manager_www_port` [default: `4242`]: The port you want RStudio Package Manager to listen on
+* `rstudio_package_manager_config_override` [default: `""`]: If you know what you're doing, you can override or add to any of `rstudio-pm.gcfg` config options.
 * `rstudio_package_manager_license`: If specified, RStudio Package Manager will attempt to activate the supplied license key.
 
 For the rest of the default variables, see

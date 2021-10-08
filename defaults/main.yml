@@ -6,10 +6,6 @@ rstudio_package_manager_install: []
 rstudio_package_manager_www_port: 4242
 rstudio_package_manager_config_override: ""
 
-rstudio_package_manager_licensing_override: |
-  [Licensing]
-  ExpirationUIWarning = false
-
 rstudio_package_manager_http_override: |
   [HTTP]
   ; RStudio Package Manager will listen on this network address for HTTP connections.
