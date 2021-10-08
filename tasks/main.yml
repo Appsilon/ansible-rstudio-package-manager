@@ -26,7 +26,7 @@
 
 - name: start and enable service
   service:
-    name: rstudio-package-manager
+    name: rstudio-pm
     state: "{{ service_default_state | default('started') }}"
     enabled: "{{ service_default_enabled | default(true) | bool }}"
   tags:

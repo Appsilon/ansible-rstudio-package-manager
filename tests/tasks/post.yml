@@ -8,7 +8,7 @@
 
 - name: test rstudio-package-manager installation
   shell: >
-    wget http://localhost:3939 -O /dev/null -S --quiet 2>&1
+    wget http://localhost:4242 -O /dev/null -S --quiet 2>&1
     | grep -q '402 Payment Required'
     && (echo 'Availability test: pass' && exit 0)
     || (echo 'Availability test: fail' && exit 1)
