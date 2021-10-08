@@ -1,0 +1,47 @@
+# tasks file
+---
+- name: install | dependencies
+  apt:
+    name: "{{ rstudio_package_manager_dependencies }}"
+    state: "{{ apt_install_state | default('latest') }}"
+    update_cache: true
+    cache_valid_time: "{{ apt_update_cache_valid_time | default(3600) }}"
+  tags:
+    - rstudio-package-manager-install-dependencies
+
+- name: install | additional
+  apt:
+    name: "{{ rstudio_package_manager_install }}"
+    state: "{{ apt_install_state | default('latest') }}"
+  tags:
+    - rstudio-package-manager-install-additional
+
+- name: install | create (download) directory
+  file:
+    path: "{{ rstudio_package_manager_downloads_path }}"
+    state: directory
+    owner: root
+    group: root
+    mode: 0755
+  tags:
+    - rstudio-package-manager-install-download
+    - rstudio-package-manager-install-download-directory
+
+- name: install | download deb
+  command: >
+    curl --silent --show-error --fail --location
+    {{ rstudio_package_manager_download_url }}
+    -o {{ rstudio_package_manager_downloads_path }}/rstudio-package-manager-{{ rstudio_package_manager_version }}-{{ rstudio_package_manager_machine_map[ansible_machine] }}.deb
+  args:
+    creates: "{{ rstudio_package_manager_downloads_path }}/rstudio-package-manager-{{ rstudio_package_manager_version }}-{{ rstudio_package_manager_machine_map[ansible_machine] }}.deb"
+    warn: false
+  tags:
+    - rstudio-package-manager-install-download
+    - rstudio-package-manager-install-download-deb
+
+- name: install | install deb
+  apt:
+    deb: "{{ rstudio_package_manager_downloads_path }}/rstudio-package-manager-{{ rstudio_package_manager_version }}-{{ rstudio_package_manager_machine_map[ansible_machine] }}.deb"
+  tags:
+    - rstudio-package-manager-install-install
+    - rstudio-package-manager-install-install-deb

@@ -1,0 +1,10 @@
+# vars file
+---
+rstudio_package_manager_dependencies:
+  - curl
+rstudio_package_manager_downloads_path: /var/lib/ansible/rstudio-package-manager/downloads
+rstudio_package_manager_machine_map:
+  i686: i386
+  i386: i386
+  x86_64: amd64
+  amd64: amd64

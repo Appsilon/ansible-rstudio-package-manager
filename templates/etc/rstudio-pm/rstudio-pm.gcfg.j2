@@ -1,0 +1,9 @@
+{{ ansible_managed | comment }}
+
+{% if rstudio_package_manager_config_override is defined and rstudio_package_manager_config_override|length %}
+{{ rstudio_package_manager_config_override }}
+{% else %}
+{% if rstudio_package_manager_http_override is defined and rstudio_package_manager_http_override|length %}
+{{ rstudio_package_manager_http_override }}
+{% endif %}
+{% endif %}

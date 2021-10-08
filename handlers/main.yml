@@ -1,0 +1,7 @@
+# handlers file
+---
+- name: restart rstudio-package-manager
+  service:
+    name: rstudio-package-manager
+    state: restarted
+  when: service_default_state | default('started') == 'started'

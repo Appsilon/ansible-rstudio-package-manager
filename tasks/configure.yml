@@ -1,0 +1,20 @@
+---
+- name: configure | update (server) configuration file
+  template:
+    src: etc/rstudio-pm/rstudio-pm.gcfg.j2
+    dest: /etc/rstudio-pm/rstudio-pm.gcfg
+    owner: root
+    group: root
+    mode: 0644
+  notify: restart rstudio-package-manager
+  tags:
+    - rstudio-package-manager-configure-server
+
+- name: configure | activate server license
+  shell: |
+    /opt/rstudio-pm/bin/license-manager activate {{ rstudio_package_manager_license }}
+  notify: restart rstudio-package-manager
+  when: rstudio_package_manager_license|d()
+  register: license_output
+  tags:
+    - rstudio-package-manager-configure-migration

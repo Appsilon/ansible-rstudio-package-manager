@@ -1,0 +1,4 @@
+# vars file
+---
+rstudio_package_manager_install:
+  - r-base
