@@ -17,9 +17,20 @@
     owner: root
     group: root
     mode: 0644
+  register: rstudio_package_manager_register_daemon_user
   notify: restart rstudio-package-manager
   tags:
     - rstudio-package-manager-configure-server
+
+- name: reload systemd daemon
+  systemd:
+    daemon_reload: true
+  when: rstudio_package_manager_register_daemon_user is changed
+  tags:
+    - skip_ansible_lint
+
+- name: restart server now
+  meta: "flush_handlers"
 
 - name: Set cap_net_bind_service+ep on /opt/rstudio-pm/bin/rstudio-pm
   community.general.capabilities:
