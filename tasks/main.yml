@@ -24,6 +24,10 @@
     - rstudio-package-manager
     - rstudio-package-manager-configure
 
+- include: install-r.yml
+  tags:
+    - r-version-install
+
 - name: start and enable service
   service:
     name: rstudio-pm
@@ -33,6 +37,11 @@
     - configuration
     - rstudio-package-manager
     - rstudio-package-manager-start-enable-service
+
+- name: wait for port
+  wait_for:
+    port: "{{ rstudio_package_manager_www_port }}"
+    delay: 60
 
 - include: repositories.yml
   tags:
