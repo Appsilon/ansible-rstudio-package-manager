@@ -10,6 +10,14 @@
   tags:
     - rstudio-package-manager-configure-server
 
+- name: Set cap_net_bind_service+ep on /opt/rstudio-pm/bin/rstudio-pm
+  community.general.capabilities:
+    path: /opt/rstudio-pm/bin/rstudio-pm
+    capability: cap_net_bind_service+ep
+    state: present
+  tags:
+    - rstudio-package-manager-set-caps
+
 - name: configure | activate server license
   shell: |
     /opt/rstudio-pm/bin/license-manager activate {{ rstudio_package_manager_license }}

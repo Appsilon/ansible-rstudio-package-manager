@@ -2,6 +2,10 @@
 ---
 rstudio_package_manager_dependencies:
   - curl
+r_versions:
+  - 4.1.0
+  - 4.0.0
+  - 3.6.3
 rstudio_package_manager_downloads_path: /var/lib/ansible/rstudio-package-manager/downloads
 rstudio_package_manager_machine_map:
   i686: i386
