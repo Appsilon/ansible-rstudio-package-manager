@@ -39,3 +39,4 @@
     - configuration
     - rstudio-package-manager
     - rstudio-package-manager-repositories
+    - molecule-notest
