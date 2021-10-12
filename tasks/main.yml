@@ -33,3 +33,9 @@
     - configuration
     - rstudio-package-manager
     - rstudio-package-manager-start-enable-service
+
+- include: repositories.yml
+  tags:
+    - configuration
+    - rstudio-package-manager
+    - rstudio-package-manager-repositories
