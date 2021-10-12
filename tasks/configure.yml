@@ -17,4 +17,4 @@
   when: rstudio_package_manager_license|d()
   register: license_output
   tags:
-    - rstudio-package-manager-configure-migration
+    - rstudio-package-manager-configure-license

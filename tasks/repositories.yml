@@ -1,0 +1,10 @@
+---
+
+- name: repositories | create CRAN repository
+  shell: |
+    /opt/rstudio-pm/bin/rspm create repo --name=cran --description='Access CRAN packages' || true
+    /opt/rstudio-pm/bin/rspm subscribe --repo=cran --source=cran || true
+    /opt/rstudio-pm/bin/rspm sync --type=cran --no-wait
+  when: rstudio_package_manager_enable_repositories | bool
+  tags:
+    - rstudio-package-manager-repositories-cran
