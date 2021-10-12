@@ -8,3 +8,38 @@
   when: rstudio_package_manager_enable_repositories | bool
   tags:
     - rstudio-package-manager-repositories-cran
+
+- name: repositories | write default SSH key to file
+  copy:
+    content: "{{ rstudio_package_manager_ssh_key }}"
+    dest: "/var/lib/rstudio-pm/default-ssh-key"
+    owner: root
+    group: root
+    mode: 0644
+  when: rstudio_package_manager_ssh_key is defined
+  tags:
+    - rstudio-package-manager-repositories-ssh-key
+
+- name: repositories | import default SSH key
+  shell: |
+    /opt/rstudio-pm/bin/rspm import --name=default --path=/var/lib/rstudio-pm/default-ssh-key
+  when: rstudio_package_manager_ssh_key is defined
+  tags:
+    - rstudio-package-manager-repositories-ssh-key
+
+- name: repositories | create internal Git source and repository
+  shell: |
+    /opt/rstudio-pm/bin/rspm create source --type=git --name=internal-git-src || true
+    /opt/rstudio-pm/bin/rspm create repo --name=internal-git --description='Stable releases of our internal packages' || true
+    /opt/rstudio-pm/bin/rspm subscribe --source=internal-git-src --repo=internal-git || true
+  when: rstudio_package_manager_enable_git_repositories | bool
+  tags:
+    - rstudio-package-manager-repositories-git
+
+- name: repositories | create Git builders
+  shell: |
+    /opt/rstudio-pm/bin/rspm create git-builder --source=internal-git-src --url={{ item.name }} --ssh-key=default --build-trigger={{ item.trigger }}
+  loop: "{{ rstudio_package_manager_git_repositories }}"
+  when: rstudio_package_manager_git_repositories is defined
+  tags:
+    - rstudio-package-manager-repositories-git
