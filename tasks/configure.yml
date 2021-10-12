@@ -10,6 +10,17 @@
   tags:
     - rstudio-package-manager-configure-server
 
+- name: configure | update (systemd) configuration file
+  template:
+    src: etc/systemd/system/rstudio-pm.service.d/user.conf
+    dest: /etc/systemd/system/rstudio-pm.service.d/user.conf
+    owner: root
+    group: root
+    mode: 0644
+  notify: restart rstudio-package-manager
+  tags:
+    - rstudio-package-manager-configure-server
+
 - name: Set cap_net_bind_service+ep on /opt/rstudio-pm/bin/rstudio-pm
   community.general.capabilities:
     path: /opt/rstudio-pm/bin/rstudio-pm
