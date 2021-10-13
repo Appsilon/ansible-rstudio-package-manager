@@ -38,7 +38,7 @@
 
 - name: repositories | create Git builders
   shell: |
-    /opt/rstudio-pm/bin/rspm create git-builder --source=internal-git-src --url={{ item.name }} --ssh-key=default --build-trigger={{ item.trigger }}
+    /opt/rstudio-pm/bin/rspm create git-builder --source=internal-git-src --url={{ item.name }} --ssh-key=default --build-trigger={{ item.trigger }} || true
   loop: "{{ rstudio_package_manager_git_repositories }}"
   when: rstudio_package_manager_git_repositories is defined
   tags:
