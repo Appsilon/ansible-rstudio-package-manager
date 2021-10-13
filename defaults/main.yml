@@ -7,6 +7,8 @@ rstudio_package_manager_enable_repositories: false
 rstudio_package_manager_enable_git_repositories: false
 rstudio_package_manager_ssh_key: ""
 rstudio_package_manager_git_repositories: []
+rstudio_encryption_key: ""
+rstudio_package_manager_encryption_key_location: "/var/lib/rstudio-pm/default-encryption-key"
 
 rstudio_package_manager_www_port: 4242
 rstudio_package_manager_config_override: ""

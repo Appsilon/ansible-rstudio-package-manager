@@ -1,4 +1,16 @@
 ---
+
+- name: configure | write encryption key to file
+  copy:
+    content: "{{ rstudio_encryption_key | trim }}"
+    dest: "{{ rstudio_package_manager_encryption_key_location }}"
+    owner: rstudio-pm
+    group: rstudio-pm
+    mode: 0600
+  when: rstudio_encryption_key is defined
+  tags:
+    - rstudio-package-manager-encryption-key
+
 - name: configure | update (server) configuration file
   template:
     src: etc/rstudio-pm/rstudio-pm.gcfg.j2

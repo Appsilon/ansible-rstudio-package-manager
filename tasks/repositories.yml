@@ -1,5 +1,14 @@
 ---
 
+- name: wait for server
+  uri:
+    url: "http://127.0.0.1:{{ rstudio_package_manager_www_port }}/__ping__"
+    status_code: 200
+  register: result
+  until: result.status == 200
+  retries: 60
+  delay: 1
+
 - name: repositories | create CRAN repository
   shell: |
     /opt/rstudio-pm/bin/rspm create repo --name=cran --description='Access CRAN packages' || true
