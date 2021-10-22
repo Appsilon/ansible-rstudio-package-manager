@@ -3,7 +3,6 @@
 {% if rstudio_package_manager_config_override is defined and rstudio_package_manager_config_override|length %}
 {{ rstudio_package_manager_config_override }}
 {% else %}
-{% if rstudio_package_manager_http_override is defined and rstudio_package_manager_http_override|length %}
-{{ rstudio_package_manager_http_override }}
-{% endif %}
+{% from "macros/gcfg_encode_macro.j2" import gcfg_encode with context -%}
+{{ gcfg_encode(rstudio_package_manager_config) }}
 {% endif %}
