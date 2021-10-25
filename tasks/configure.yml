@@ -7,7 +7,9 @@
     owner: rstudio-pm
     group: rstudio-pm
     mode: 0600
-  when: rstudio_encryption_key is defined
+  when:
+    - rstudio_encryption_key is defined
+    - rstudio_encryption_key|length
   tags:
     - rstudio-package-manager-encryption-key
 

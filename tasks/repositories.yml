@@ -14,27 +14,28 @@
     /opt/rstudio-pm/bin/rspm create repo --name=cran --description='Access CRAN packages' || true
     /opt/rstudio-pm/bin/rspm subscribe --repo=cran --source=cran || true
     /opt/rstudio-pm/bin/rspm sync --type=cran --no-wait
-  when: rstudio_package_manager_enable_repositories | bool
+  changed_when: true
   tags:
     - rstudio-package-manager-repositories-cran
 
-- name: repositories | write default SSH key to file
-  copy:
-    content: "{{ rstudio_package_manager_ssh_key }}"
-    dest: "/var/lib/rstudio-pm/default-ssh-key"
-    owner: root
-    group: root
-    mode: 0644
-  when: rstudio_package_manager_ssh_key is defined
-  tags:
-    - rstudio-package-manager-repositories-ssh-key
+- name: configure repositories
+  block:
+    - name: repositories | write default SSH key to file
+      copy:
+        content: "{{ rstudio_package_manager_ssh_key }}"
+        dest: "/var/lib/rstudio-pm/default-ssh-key"
+        owner: root
+        group: root
+        mode: 0644
 
-- name: repositories | import default SSH key
-  shell: |
-    /opt/rstudio-pm/bin/rspm import --name=default --path=/var/lib/rstudio-pm/default-ssh-key || true
-  when: rstudio_package_manager_ssh_key is defined
+    - name: repositories | import default SSH key
+      shell: |
+        /opt/rstudio-pm/bin/rspm import --name=default --path=/var/lib/rstudio-pm/default-ssh-key || true
   tags:
     - rstudio-package-manager-repositories-ssh-key
+  when:
+    - rstudio_package_manager_ssh_key is defined
+    - rstudio_package_manager_ssh_key|length
 
 - name: repositories | create internal Git source and repository
   shell: |
@@ -49,6 +50,8 @@
   shell: |
     /opt/rstudio-pm/bin/rspm create git-builder --source=internal-git-src --url={{ item.name }} --ssh-key=default --build-trigger={{ item.trigger }} || true
   loop: "{{ rstudio_package_manager_git_repositories }}"
-  when: rstudio_package_manager_git_repositories is defined
+  when:
+    - rstudio_package_manager_git_repositories is defined
+    - rstudio_package_manager_git_repositories|length
   tags:
     - rstudio-package-manager-repositories-git

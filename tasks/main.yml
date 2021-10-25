@@ -39,6 +39,7 @@
     - rstudio-package-manager-start-enable-service
 
 - include: repositories.yml
+  when: rstudio_package_manager_enable_repositories | bool
   tags:
     - configuration
     - rstudio-package-manager
