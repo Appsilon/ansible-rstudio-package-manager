@@ -3,9 +3,11 @@
 - name: wait for server
   uri:
     url: "http://127.0.0.1:{{ rstudio_package_manager_www_port }}/__ping__"
-    status_code: 200
+    status_code:
+      - 200
+      - 402
   register: result
-  until: result.status == 200
+  until: result.status in [200, 402]
   retries: 60
   delay: 1
 
@@ -15,6 +17,7 @@
     /opt/rstudio-pm/bin/rspm subscribe --repo=cran --source=cran || true
     /opt/rstudio-pm/bin/rspm sync --type=cran
   changed_when: true
+  when: rstudio_package_manager_enable_cran_repositories | bool
   tags:
     - rstudio-package-manager-repositories-cran
 
