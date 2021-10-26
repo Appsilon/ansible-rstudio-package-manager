@@ -13,7 +13,7 @@
   shell: |
     /opt/rstudio-pm/bin/rspm create repo --name=cran --description='Access CRAN packages' || true
     /opt/rstudio-pm/bin/rspm subscribe --repo=cran --source=cran || true
-    /opt/rstudio-pm/bin/rspm sync --type=cran --no-wait
+    /opt/rstudio-pm/bin/rspm sync --type=cran
   changed_when: true
   tags:
     - rstudio-package-manager-repositories-cran
