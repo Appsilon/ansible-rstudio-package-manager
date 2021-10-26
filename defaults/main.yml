@@ -4,6 +4,7 @@ rstudio_package_manager_version: "2021.09.0-1"
 rstudio_package_manager_install: []
 
 rstudio_package_manager_enable_repositories: false
+rstudio_package_manager_enable_cran_repositories: false
 rstudio_package_manager_enable_git_repositories: false
 rstudio_package_manager_ssh_key: ""
 rstudio_package_manager_git_repositories: []
