@@ -34,6 +34,8 @@
     - name: repositories | import default SSH key
       shell: |
         /opt/rstudio-pm/bin/rspm import --name=default --path=/var/lib/rstudio-pm/default-ssh-key || true
+      register: out
+      changed_when: out.rc != 0
   tags:
     - rstudio-package-manager-repositories-ssh-key
   when:
