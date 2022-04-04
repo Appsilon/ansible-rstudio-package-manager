@@ -1,7 +1,7 @@
 ---
 
 - name: configure | write encryption key to file
-  copy:
+  ansible.builtin.copy:
     content: "{{ rstudio_encryption_key | trim }}"
     dest: "{{ rstudio_package_manager_encryption_key_location }}"
     owner: rstudio-pm
@@ -14,7 +14,7 @@
     - rstudio-package-manager-encryption-key
 
 - name: configure | update (server) configuration file
-  template:
+  ansible.builtin.template:
     src: etc/rstudio-pm/rstudio-pm.gcfg.j2
     dest: /etc/rstudio-pm/rstudio-pm.gcfg
     owner: root
@@ -25,7 +25,7 @@
     - rstudio-package-manager-configure-server
 
 - name: configure | update (systemd) configuration file
-  template:
+  ansible.builtin.template:
     src: etc/systemd/system/rstudio-pm.service.d/user.conf
     dest: /etc/systemd/system/rstudio-pm.service.d/user.conf
     owner: root
@@ -37,14 +37,14 @@
     - rstudio-package-manager-configure-server
 
 - name: reload systemd daemon
-  systemd:
+  ansible.builtin.systemd:
     daemon_reload: true
   when: rstudio_package_manager_register_daemon_user is changed
   tags:
     - skip_ansible_lint
 
 - name: restart server now
-  meta: "flush_handlers"
+  ansible.builtin.meta: "flush_handlers"
 
 - name: Set cap_net_bind_service+ep on /opt/rstudio-pm/bin/rstudio-pm
   community.general.capabilities:
@@ -72,7 +72,7 @@
   no_log: true
 
 - name: configure | license activation (online)
-  shell: |
+  ansible.builtin.shell: |
     /opt/rstudio-pm/bin/license-manager activate {{ rstudio_package_manager_license }}
   notify: restart rstudio-package-manager
   when: rstudio_package_manager_license|d()

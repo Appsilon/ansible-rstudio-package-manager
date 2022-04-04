@@ -1,7 +1,7 @@
 # handlers file
 ---
 - name: restart rstudio-package-manager
-  service:
+  ansible.builtin.service:
     name: rstudio-pm
     state: restarted
   when: service_default_state | default('started') == 'started'
