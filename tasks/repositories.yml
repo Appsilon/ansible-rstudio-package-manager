@@ -1,7 +1,7 @@
 ---
 
 - name: wait for server
-  uri:
+  ansible.builtin.uri:
     url: "http://127.0.0.1:{{ rstudio_package_manager_www_port }}/__ping__"
     status_code:
       - 200
@@ -12,7 +12,7 @@
   delay: 1
 
 - name: repositories | create CRAN repository
-  shell: |
+  ansible.builtin.shell: |
     /opt/rstudio-pm/bin/rspm create repo --name=cran --description='Access CRAN packages' || true
     /opt/rstudio-pm/bin/rspm subscribe --repo=cran --source=cran || true
     /opt/rstudio-pm/bin/rspm sync --type=cran
@@ -24,7 +24,7 @@
 - name: configure repositories
   block:
     - name: repositories | write default SSH key to file
-      copy:
+      ansible.builtin.copy:
         content: "{{ rstudio_package_manager_ssh_key }}"
         dest: "/var/lib/rstudio-pm/default-ssh-key"
         owner: root
@@ -32,7 +32,7 @@
         mode: 0644
 
     - name: repositories | import default SSH key
-      shell: |
+      ansible.builtin.shell: |
         /opt/rstudio-pm/bin/rspm import --name=default --path=/var/lib/rstudio-pm/default-ssh-key || true
       register: out
       changed_when: out.rc != 0
@@ -43,7 +43,7 @@
     - rstudio_package_manager_ssh_key|length
 
 - name: repositories | create internal Git source and repository
-  shell: |
+  ansible.builtin.shell: |
     /opt/rstudio-pm/bin/rspm create source --type=git --name=internal-git-src || true
     /opt/rstudio-pm/bin/rspm create repo --name=internal-git --description='Stable releases of our internal packages' || true
     /opt/rstudio-pm/bin/rspm subscribe --source=internal-git-src --repo=internal-git || true
@@ -52,7 +52,7 @@
     - rstudio-package-manager-repositories-git
 
 - name: repositories | create Git builders
-  shell: |
+  ansible.builtin.shell: |
     /opt/rstudio-pm/bin/rspm create git-builder --source=internal-git-src --url={{ item.name }} --ssh-key=default --build-trigger={{ item.trigger }} || true
   loop: "{{ rstudio_package_manager_git_repositories }}"
   when:
