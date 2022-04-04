@@ -23,7 +23,12 @@ jobs:
           python-version: '3.x'
 
       - name: Install test dependencies
-        run: pip install ansible-lint[community,yamllint]
+        run: pip install ansible-lint[community,yamllint] ansible-core
+
+      - name: Install dependencies from requirements.yaml
+        run: |
+          ansible-galaxy collection install -r requirements.yaml
+          ansible-galaxy install -r requirements.yaml --force
 
       - name: Lint code
         run: |
