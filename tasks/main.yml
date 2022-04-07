@@ -24,10 +24,6 @@
     - rstudio-package-manager
     - rstudio-package-manager-configure
 
-- include: install-r.yml
-  tags:
-    - r-version-install
-
 - name: start and enable service
   ansible.builtin.service:
     name: rstudio-pm
