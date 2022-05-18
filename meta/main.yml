@@ -1,7 +1,6 @@
 # meta file
 ---
 galaxy_info:
-  namespace: appsilon
   role_name: rstudio_package_manager
   author: shmileee
   company: Appsilon
