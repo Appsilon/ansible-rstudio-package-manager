@@ -1,12 +1,12 @@
 # post test file
 ---
-- name: install test dependencies
+- name: Install test dependencies
   ansible.builtin.apt:
     name:
       - wget
     state: "{{ apt_install_state | default('latest') }}"
 
-- name: test rstudio-package-manager installation
+- name: Test rstudio-package-manager installation
   ansible.builtin.shell: >
     wget http://localhost:4242 -O /dev/null -S --quiet 2>&1
     | grep -q '402 Payment Required'

@@ -1,6 +1,6 @@
 # handlers file
 ---
-- name: restart rstudio-package-manager
+- name: Restart rstudio-package-manager
   ansible.builtin.service:
     name: rstudio-pm
     state: restarted
