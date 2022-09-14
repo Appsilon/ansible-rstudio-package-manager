@@ -16,7 +16,7 @@
     - configuration
     - rstudio-package-manager
     - rstudio-package-manager-install
-  notify: restart rstudio-package-manager
+  notify: Restart rstudio-package-manager
 
 - include: configure.yml
   tags:

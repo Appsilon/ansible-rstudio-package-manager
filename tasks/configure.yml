@@ -20,7 +20,7 @@
     owner: root
     group: root
     mode: 0644
-  notify: restart rstudio-package-manager
+  notify: Restart rstudio-package-manager
   tags:
     - rstudio-package-manager-configure-server
 
@@ -32,11 +32,11 @@
     group: root
     mode: 0644
   register: rstudio_package_manager_register_daemon_user
-  notify: restart rstudio-package-manager
+  notify: Restart rstudio-package-manager
   tags:
     - rstudio-package-manager-configure-server
 
-- name: Reload systemd daemon
+- name: Reload systemd daemon  # noqa no-handler
   ansible.builtin.systemd:
     daemon_reload: true
   when: rstudio_package_manager_register_daemon_user is changed
@@ -67,14 +67,14 @@
     - name: License activation (offline) | activate using key file  # noqa no-changed-when
       ansible.builtin.shell: |
         /opt/rstudio-pm/bin/license-manager activate-file /etc/rstudio-pm/activation-key.lic
-  notify: restart rstudio-package-manager
+  notify: Restart rstudio-package-manager
   when: rstudio_package_manager_license_offline_key_b64_encoded | d()
   no_log: true
 
 - name: Configure | license activation (online)
   ansible.builtin.shell: |
     /opt/rstudio-pm/bin/license-manager activate {{ rstudio_package_manager_license }}
-  notify: restart rstudio-package-manager
+  notify: Restart rstudio-package-manager
   when: rstudio_package_manager_license | d()
   register: license_output
   no_log: true
