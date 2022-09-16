@@ -1,4 +1,4 @@
 # vars file
 ---
 rstudio_package_manager_download_url: "https://cdn.rstudio.com/package-manager/ubuntu{{ ansible_distribution_major_version }}/{{ rstudio_package_manager_machine_map[ansible_machine] }}/rstudio-pm_{{ rstudio_package_manager_version }}_{{ rstudio_package_manager_machine_map[ansible_machine] }}.deb"
-r_download_url: "https://cdn.rstudio.com/r/ubuntu-{{ ansible_lsb.release | replace('.','') }}/pkgs"
+r_download_url: "https://cdn.rstudio.com/r/ubuntu-{{ ansible_lsb.release | replace('.', '') }}/pkgs"

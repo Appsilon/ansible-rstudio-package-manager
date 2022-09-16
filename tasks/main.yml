@@ -1,6 +1,6 @@
 # tasks file
 ---
-- name: include variables
+- name: Include variables
   ansible.builtin.include_vars: "{{ item }}"
   with_first_found:
     - "_{{ ansible_distribution_release }}.yml"
@@ -16,7 +16,7 @@
     - configuration
     - rstudio-package-manager
     - rstudio-package-manager-install
-  notify: restart rstudio-package-manager
+  notify: Restart rstudio-package-manager
 
 - include: configure.yml
   tags:
@@ -24,7 +24,7 @@
     - rstudio-package-manager
     - rstudio-package-manager-configure
 
-- name: start and enable service
+- name: Start and enable service
   ansible.builtin.service:
     name: rstudio-pm
     state: "{{ service_default_state | default('started') }}"

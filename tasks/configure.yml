@@ -1,6 +1,6 @@
 ---
 
-- name: configure | write encryption key to file
+- name: Configure | write encryption key to file
   ansible.builtin.copy:
     content: "{{ rstudio_encryption_key | trim }}"
     dest: "{{ rstudio_package_manager_encryption_key_location }}"
@@ -13,18 +13,18 @@
   tags:
     - rstudio-package-manager-encryption-key
 
-- name: configure | update (server) configuration file
+- name: Configure | update (server) configuration file
   ansible.builtin.template:
     src: etc/rstudio-pm/rstudio-pm.gcfg.j2
     dest: /etc/rstudio-pm/rstudio-pm.gcfg
     owner: root
     group: root
     mode: 0644
-  notify: restart rstudio-package-manager
+  notify: Restart rstudio-package-manager
   tags:
     - rstudio-package-manager-configure-server
 
-- name: configure | update (systemd) configuration file
+- name: Configure | update (systemd) configuration file
   ansible.builtin.template:
     src: etc/systemd/system/rstudio-pm.service.d/user.conf
     dest: /etc/systemd/system/rstudio-pm.service.d/user.conf
@@ -32,18 +32,18 @@
     group: root
     mode: 0644
   register: rstudio_package_manager_register_daemon_user
-  notify: restart rstudio-package-manager
+  notify: Restart rstudio-package-manager
   tags:
     - rstudio-package-manager-configure-server
 
-- name: reload systemd daemon
+- name: Reload systemd daemon  # noqa no-handler
   ansible.builtin.systemd:
     daemon_reload: true
   when: rstudio_package_manager_register_daemon_user is changed
   tags:
     - skip_ansible_lint
 
-- name: restart server now
+- name: Restart server now
   ansible.builtin.meta: "flush_handlers"
 
 - name: Set cap_net_bind_service+ep on /opt/rstudio-pm/bin/rstudio-pm
@@ -54,9 +54,9 @@
   tags:
     - rstudio-package-manager-set-caps
 
-- name: configure | license activation (offline)
+- name: Configure | license activation (offline)
   block:
-    - name: license activation (offline) | upload key file
+    - name: License activation (offline) | upload key file
       ansible.builtin.copy:
         content: "{{ rstudio_package_manager_license_offline_key_b64_encoded | b64decode }}"
         dest: "/etc/rstudio-pm/activation-key.lic"
@@ -64,17 +64,17 @@
         group: root
         mode: 0600
 
-    - name: license activation (offline) | activate using key file  # noqa no-changed-when
+    - name: License activation (offline) | activate using key file  # noqa no-changed-when
       ansible.builtin.shell: |
         /opt/rstudio-pm/bin/license-manager activate-file /etc/rstudio-pm/activation-key.lic
-  notify: restart rstudio-package-manager
-  when: rstudio_package_manager_license_offline_key_b64_encoded|d()
+  notify: Restart rstudio-package-manager
+  when: rstudio_package_manager_license_offline_key_b64_encoded | d()
   no_log: true
 
-- name: configure | license activation (online)
+- name: Configure | license activation (online)
   ansible.builtin.shell: |
     /opt/rstudio-pm/bin/license-manager activate {{ rstudio_package_manager_license }}
-  notify: restart rstudio-package-manager
-  when: rstudio_package_manager_license|d()
+  notify: Restart rstudio-package-manager
+  when: rstudio_package_manager_license | d()
   register: license_output
   no_log: true

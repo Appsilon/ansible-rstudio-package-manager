@@ -1,6 +1,6 @@
 ---
 
-- name: wait for server
+- name: Wait for server
   ansible.builtin.uri:
     url: "http://127.0.0.1:{{ rstudio_package_manager_www_port }}/__ping__"
     status_code:
@@ -11,7 +11,7 @@
   retries: 60
   delay: 1
 
-- name: repositories | create CRAN repository
+- name: Repositories | create CRAN repository
   ansible.builtin.shell: |
     /opt/rstudio-pm/bin/rspm create repo --name=cran --description='Access CRAN packages' || true
     /opt/rstudio-pm/bin/rspm subscribe --repo=cran --source=cran || true
@@ -21,9 +21,9 @@
   tags:
     - rstudio-package-manager-repositories-cran
 
-- name: configure repositories
+- name: Configure repositories
   block:
-    - name: repositories | write default SSH key to file
+    - name: Repositories | write default SSH key to file
       ansible.builtin.copy:
         content: "{{ rstudio_package_manager_ssh_key }}"
         dest: "/var/lib/rstudio-pm/default-ssh-key"
@@ -31,7 +31,7 @@
         group: root
         mode: 0644
 
-    - name: repositories | import default SSH key
+    - name: Repositories | import default SSH key
       ansible.builtin.shell: |
         /opt/rstudio-pm/bin/rspm import ssh-key --name=default --path=/var/lib/rstudio-pm/default-ssh-key || true
       register: out
@@ -42,7 +42,7 @@
     - rstudio_package_manager_ssh_key is defined
     - rstudio_package_manager_ssh_key|length
 
-- name: repositories | create internal Git source and repository
+- name: Repositories | create internal Git source and repository
   ansible.builtin.shell: |
     /opt/rstudio-pm/bin/rspm create source --type=git --name=internal-git-src || true
     /opt/rstudio-pm/bin/rspm create repo --name=internal-git --description='Stable releases of our internal packages' || true
@@ -51,7 +51,7 @@
   tags:
     - rstudio-package-manager-repositories-git
 
-- name: repositories | create Git builders
+- name: Repositories | create Git builders
   ansible.builtin.shell: |
     /opt/rstudio-pm/bin/rspm create git-builder --source=internal-git-src --url={{ item.name }} --credential=default --build-trigger={{ item.trigger }} || true
   loop: "{{ rstudio_package_manager_git_repositories }}"
