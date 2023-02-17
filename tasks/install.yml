@@ -28,12 +28,10 @@
     - rstudio-package-manager-install-download-directory
 
 - name: Install | download deb
-  ansible.builtin.command: >
-    curl --silent --show-error --fail --location
-    {{ rstudio_package_manager_download_url }}
-    -o {{ rstudio_package_manager_downloads_path }}/rstudio-package-manager-{{ rstudio_package_manager_version }}-{{ rstudio_package_manager_machine_map[ansible_machine] }}.deb
-  args:
-    creates: "{{ rstudio_package_manager_downloads_path }}/rstudio-package-manager-{{ rstudio_package_manager_version }}-{{ rstudio_package_manager_machine_map[ansible_machine] }}.deb"
+  ansible.builtin.get_url:
+    url: "{{ rstudio_package_manager_download_url }}"
+    dest: "{{ rstudio_package_manager_downloads_path }}/rstudio-package-manager-{{ rstudio_package_manager_version }}-{{ rstudio_package_manager_machine_map[ansible_machine] }}.deb"
+    mode: '0755'
   tags:
     - rstudio-package-manager-install-download
     - rstudio-package-manager-install-download-deb

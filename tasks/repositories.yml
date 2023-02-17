@@ -22,6 +22,11 @@
     - rstudio-package-manager-repositories-cran
 
 - name: Configure repositories
+  tags:
+    - rstudio-package-manager-repositories-ssh-key
+  when:
+    - rstudio_package_manager_ssh_key is defined
+    - rstudio_package_manager_ssh_key|length
   block:
     - name: Repositories | write default SSH key to file
       ansible.builtin.copy:
@@ -36,11 +41,6 @@
         /opt/rstudio-pm/bin/rspm import ssh-key --name=default --path=/var/lib/rstudio-pm/default-ssh-key || true
       register: out
       changed_when: out.rc != 0
-  tags:
-    - rstudio-package-manager-repositories-ssh-key
-  when:
-    - rstudio_package_manager_ssh_key is defined
-    - rstudio_package_manager_ssh_key|length
 
 - name: Repositories | create internal Git source and repository
   ansible.builtin.shell: |

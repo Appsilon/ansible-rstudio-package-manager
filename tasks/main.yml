@@ -11,14 +11,15 @@
     - rstudio-package-manager
     - rstudio-package-manager-include-variables
 
-- include: install.yml
+- name: Include install
+  ansible.builtin.include_tasks: install.yml
   tags:
     - configuration
     - rstudio-package-manager
     - rstudio-package-manager-install
-  notify: Restart rstudio-package-manager
 
-- include: configure.yml
+- name: Include configure
+  ansible.builtin.include_tasks: configure.yml
   tags:
     - configuration
     - rstudio-package-manager
@@ -34,7 +35,8 @@
     - rstudio-package-manager
     - rstudio-package-manager-start-enable-service
 
-- include: repositories.yml
+- name: Include repositories
+  ansible.builtin.include_tasks: repositories.yml
   tags:
     - configuration
     - rstudio-package-manager
