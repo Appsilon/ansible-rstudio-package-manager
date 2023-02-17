@@ -34,7 +34,6 @@
     -o {{ rstudio_package_manager_downloads_path }}/rstudio-package-manager-{{ rstudio_package_manager_version }}-{{ rstudio_package_manager_machine_map[ansible_machine] }}.deb
   args:
     creates: "{{ rstudio_package_manager_downloads_path }}/rstudio-package-manager-{{ rstudio_package_manager_version }}-{{ rstudio_package_manager_machine_map[ansible_machine] }}.deb"
-    warn: false
   tags:
     - rstudio-package-manager-install-download
     - rstudio-package-manager-install-download-deb
