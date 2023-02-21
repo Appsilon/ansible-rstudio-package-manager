@@ -1,6 +1,6 @@
 # defaults file
 ---
-rstudio_package_manager_version: "2022.04.0-7"
+rstudio_package_manager_version: "2022.11.4-20"
 rstudio_package_manager_install: []
 
 rstudio_package_manager_enable_repositories: false

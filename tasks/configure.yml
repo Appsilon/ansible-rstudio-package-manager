@@ -55,6 +55,9 @@
     - rstudio-package-manager-set-caps
 
 - name: Configure | license activation (offline)
+  notify: Restart rstudio-package-manager
+  when: rstudio_package_manager_license_offline_key_b64_encoded | d()
+  no_log: true
   block:
     - name: License activation (offline) | upload key file
       ansible.builtin.copy:
@@ -67,9 +70,6 @@
     - name: License activation (offline) | activate using key file  # noqa no-changed-when
       ansible.builtin.shell: |
         /opt/rstudio-pm/bin/license-manager activate-file /etc/rstudio-pm/activation-key.lic
-  notify: Restart rstudio-package-manager
-  when: rstudio_package_manager_license_offline_key_b64_encoded | d()
-  no_log: true
 
 - name: Configure | license activation (online)
   ansible.builtin.shell: |

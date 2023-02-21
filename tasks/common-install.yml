@@ -1,0 +1,34 @@
+# tasks file
+---
+- name: Install | update apt cache
+  ansible.builtin.apt:
+    update_cache: true
+    cache_valid_time: "{{ apt_update_cache_valid_time | default(3600) }}"
+  when: ansible_os_family == "Debian"
+  tags:
+    - rstudio-package-manager-install-apt-cache
+
+- name: Install | dependencies
+  ansible.builtin.package:
+    name: "{{ rstudio_package_manager_dependencies }}"
+    state: "{{ package_install_state | default('latest') }}"
+  tags:
+    - rstudio-package-manager-install-dependencies
+
+- name: Install | additional
+  ansible.builtin.package:
+    name: "{{ rstudio_package_manager_install }}"
+    state: "{{ package_install_state | default('latest') }}"
+  tags:
+    - rstudio-package-manager-install-additional
+
+- name: Install | create (download) directory
+  ansible.builtin.file:
+    path: "{{ rstudio_package_manager_downloads_path }}"
+    state: directory
+    owner: root
+    group: root
+    mode: 0755
+  tags:
+    - rstudio-package-manager-install-download
+    - rstudio-package-manager-install-download-directory

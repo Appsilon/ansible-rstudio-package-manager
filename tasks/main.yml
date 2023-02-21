@@ -4,6 +4,7 @@
   ansible.builtin.include_vars: "{{ item }}"
   with_first_found:
     - "_{{ ansible_distribution_release }}.yml"
+    - "_{{ (ansible_distribution + '-' + ansible_distribution_major_version) | lower }}.yml"
     - "_{{ ansible_distribution | lower }}.yml"
     - _default.yml
   tags:
@@ -11,14 +12,23 @@
     - rstudio-package-manager
     - rstudio-package-manager-include-variables
 
-- include: install.yml
+- name: Include common installation steps
+  ansible.builtin.include_tasks: common-install.yml
   tags:
     - configuration
     - rstudio-package-manager
     - rstudio-package-manager-install
-  notify: Restart rstudio-package-manager
+    - rstudio-package-manager-install-common-steps
 
-- include: configure.yml
+- name: Include install
+  ansible.builtin.include_tasks: "{{ ansible_os_family | lower }}/main.yml"
+  tags:
+    - configuration
+    - rstudio-package-manager
+    - rstudio-package-manager-install
+
+- name: Include configure
+  ansible.builtin.include_tasks: configure.yml
   tags:
     - configuration
     - rstudio-package-manager
@@ -34,7 +44,8 @@
     - rstudio-package-manager
     - rstudio-package-manager-start-enable-service
 
-- include: repositories.yml
+- name: Include repositories
+  ansible.builtin.include_tasks: repositories.yml
   tags:
     - configuration
     - rstudio-package-manager
