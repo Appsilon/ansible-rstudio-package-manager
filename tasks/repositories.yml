@@ -42,7 +42,7 @@
       register: out
       changed_when: out.rc != 0
 
-- name: Repositories | create internal Git source and repository
+- name: Repositories | create internal Git source and repository  # noqa no-changed-when
   ansible.builtin.shell: |
     /opt/rstudio-pm/bin/rspm create source --type=git --name=internal-git-src || true
     /opt/rstudio-pm/bin/rspm create repo --name=internal-git --description='Stable releases of our internal packages' || true
@@ -51,7 +51,7 @@
   tags:
     - rstudio-package-manager-repositories-git
 
-- name: Repositories | create Git builders
+- name: Repositories | create Git builders  # noqa no-changed-when
   ansible.builtin.shell: |
     /opt/rstudio-pm/bin/rspm create git-builder --source=internal-git-src --url={{ item.name }} --credential=default --build-trigger={{ item.trigger }} || true
   loop: "{{ rstudio_package_manager_git_repositories }}"
