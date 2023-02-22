@@ -12,7 +12,7 @@ Set up (the latest version of) [RStudio Package Manager](https://www.rstudio.com
 
 ## Role Variables
 
-* `rstudio_package_manager_version` [default: `2021.09.0-1`]: Version to install
+* `rstudio_package_manager_version` [default: `2022.11.4-20`]: Version to install
 * `rstudio_package_manager_install` [default: `[]`]: Additional packages to install (e.g. `r-base`)
 * `rstudio_package_manager_www_port` [default: `4242`]: The port you want RStudio Package Manager to listen on
 * `rstudio_package_manager_config`: A map of maps containing RStudio Package
