@@ -51,6 +51,16 @@
     path: /opt/rstudio-pm/bin/rstudio-pm
     capability: cap_net_bind_service+ep
     state: present
+  when: ansible_os_family == "Debian"
+  tags:
+    - rstudio-package-manager-set-caps
+
+- name: Set cap_net_bind_service+ep on /opt/rstudio-pm/bin/rstudio-pm
+  community.general.capabilities:
+    path: /opt/rstudio-pm/bin/rstudio-pm
+    capability: cap_net_bind_service=ep
+    state: present
+  when: ansible_os_family == "RedHat"
   tags:
     - rstudio-package-manager-set-caps
 
