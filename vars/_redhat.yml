@@ -1,0 +1,10 @@
+# vars file
+---
+# Extract date from the version (YYYY.MM.x-xx) and compare it with the date from the version with the new URL
+# If the difference is greater than 0, then use the old path, otherwise use the new path
+rstudio_package_manager_download_url_variable_part: "{{ \
+  (((rstudio_package_manager_version_with_new_url | regex_replace('(.*)\\.\\d+-\\d+', '\\1') | to_datetime('%Y.%m')) \
+  - (rstudio_package_manager_version | regex_replace('(.*)\\.\\d+-\\d+', '\\1') | to_datetime('%Y.%m'))).days > 0) \
+  | ternary('rhel8', 'rpm') \
+  }}"
+rstudio_package_manager_download_url: "https://cdn.posit.co/package-manager/{{ rstudio_package_manager_download_url_variable_part }}/x86_64/rstudio-pm-{{ rstudio_package_manager_version }}.x86_64.rpm"

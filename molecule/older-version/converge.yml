@@ -6,5 +6,7 @@
   pre_tasks:
     - name: Include vars
       ansible.builtin.include_vars: "{{ playbook_dir }}/../../tests/vars/main.yml"
+    - name: Include vars for older version
+      ansible.builtin.include_vars: "{{ playbook_dir }}/../../tests/vars/older-version.yml"
   roles:
     - ../../../

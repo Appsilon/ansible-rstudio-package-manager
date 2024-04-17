@@ -1,0 +1,7 @@
+---
+- name: Verify
+  hosts: all
+  become: true
+  tasks:
+    - name: Include tasks
+      ansible.builtin.include_tasks: "{{ playbook_dir }}/../../tests/tasks/post.yml"
