@@ -33,7 +33,7 @@ categories:
       - 'ci'
   - title: '⛓️ Dependencies'
     labels:
-      - 'deps'
+      - 'dependencies'
   - title: '🔖 Other changes'
 change-template: '- $TITLE @$AUTHOR (#$NUMBER)'
 change-title-escapes: '\<*_&'  # You can add # and @ to disable mentions, and add ` to disable code blocks.
@@ -65,9 +65,10 @@ autolabeler:
     branch:
       - '/ci.+/'
       - '/.*\(ci\): .*/'
-  - label: 'deps'
+  - label: 'dependencies'
     branch:
       - '/deps.+/'
+      - '/.*\(deps\): .*/'
   - label: 'test'
     branch:
       - '/test.+/'
