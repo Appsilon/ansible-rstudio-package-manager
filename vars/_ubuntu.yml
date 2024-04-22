@@ -1,0 +1,16 @@
+# vars file
+---
+rstudio_package_manager_download_old_url: "https://cdn.rstudio.com/package-manager/ubuntu{{ ansible_distribution_major_version }}/{{ rstudio_package_manager_machine_map[ansible_machine] }}/rstudio-pm_{{ rstudio_package_manager_version }}_{{ rstudio_package_manager_machine_map[ansible_machine] }}.deb"
+rstudio_package_manager_download_new_url: "https://cdn.posit.co/package-manager/deb/{{ rstudio_package_manager_machine_map[ansible_machine] }}/rstudio-pm_{{ rstudio_package_manager_version }}_{{ rstudio_package_manager_machine_map[ansible_machine] }}.deb"
+# Extract date from the version (YYYY.MM.x-xx) and compare it with the date from the version with the new URL
+# If the difference is greater than 0, use the old URL, otherwise use the new URL
+rstudio_package_manager_download_url: "{{ \
+  (((rstudio_package_manager_version_with_new_url \
+  | regex_replace('(.*)\\.\\d+-\\d+', '\\1') \
+  | to_datetime('%Y.%m')) \
+  - (rstudio_package_manager_version \
+  | regex_replace('(.*)\\.\\d+-\\d+', '\\1') \
+  | to_datetime('%Y.%m'))).days > 0) \
+  | ternary(rstudio_package_manager_download_old_url, rstudio_package_manager_download_new_url) \
+  }}"
+r_download_url: "https://cdn.rstudio.com/r/ubuntu-{{ ansible_lsb.release | replace('.', '') }}/pkgs"

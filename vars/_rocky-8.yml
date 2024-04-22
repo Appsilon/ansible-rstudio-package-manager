@@ -1,3 +1,0 @@
-# vars file
----
-rstudio_package_manager_download_url: "https://cdn.posit.co/package-manager/rhel8/x86_64/rstudio-pm-{{ rstudio_package_manager_version }}.x86_64.rpm"

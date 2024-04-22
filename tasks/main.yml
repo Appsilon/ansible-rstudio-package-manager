@@ -6,7 +6,7 @@
     - "_{{ ansible_distribution_release }}.yml"
     - "_{{ (ansible_distribution + '-' + ansible_distribution_major_version) | lower }}.yml"
     - "_{{ ansible_distribution | lower }}.yml"
-    - _default.yml
+    - "_{{ ansible_os_family | lower }}.yml"
   tags:
     - configuration
     - rstudio-package-manager
