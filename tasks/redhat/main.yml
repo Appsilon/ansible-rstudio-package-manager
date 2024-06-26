@@ -10,7 +10,7 @@
     - rstudio-package-manager-install-download-rpm
 
 - name: Install | install rpm
-  ansible.builtin.yum:
+  ansible.builtin.dnf:
     name: "{{ rstudio_package_manager_downloads_path }}/rstudio-package-manager-{{ rstudio_package_manager_version }}.rpm"
     disable_gpg_check: true
   tags:
