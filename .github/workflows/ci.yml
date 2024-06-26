@@ -23,7 +23,7 @@ jobs:
           python-version: '3.x'
 
       - name: Install test dependencies
-        run: pip install ansible-lint[community,yamllint] ansible-core
+        run: pip install -r requirements.txt
 
       - name: Install dependencies from requirements.yaml
         run: |
@@ -48,11 +48,8 @@ jobs:
       matrix:
         include:
           - distro: ubuntu2004
-            ansible-version: '>=2.11.5'
           - distro: ubuntu2204
-            ansible-version: '>=2.11.5'
           - distro: rockylinux8
-            ansible-version: '>=2.11.5'
 
     steps:
       - name: Check out the codebase
@@ -66,7 +63,7 @@ jobs:
           python-version: '3.x'
 
       - name: Install test dependencies
-        run: pip install 'ansible${{ matrix.ansible-version }}' molecule molecule-plugins[docker] docker
+        run: pip install -r requirements.txt
 
       - name: Run Molecule tests
         run: |
