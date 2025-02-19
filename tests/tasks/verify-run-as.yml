@@ -1,0 +1,14 @@
+# verify run as test file
+---
+- name: Read the file content
+  ansible.builtin.slurp:
+    path: /etc/systemd/system/rstudio-pm.service.d/user.conf
+  register: file_content
+
+- name: Assert file contains required lines
+  ansible.builtin.assert:
+    that:
+      - ('User=' + run_as_user) in file_content.content | b64decode
+      - ('Group=' + runs_as_group) in file_content.content | b64decode
+    fail_msg: "File does not contain required User/Group configuration"
+    success_msg: "File contains all required lines"

@@ -1,0 +1,12 @@
+---
+- name: Converge
+  hosts: all
+  become: true
+  debugger: on_failed
+  pre_tasks:
+    - name: Include vars
+      ansible.builtin.include_vars: "{{ playbook_dir }}/../../tests/vars/main.yml"
+    - name: Include vars for non default runs as values
+      ansible.builtin.include_vars: "{{ playbook_dir }}/../../tests/vars/run-as-non-default.yml"
+  roles:
+    - ../../../

@@ -8,6 +8,5 @@
     - name: Include tasks
       ansible.builtin.include_tasks: "{{ playbook_dir }}/../../tests/tasks/verify-run-as.yml"
       vars:
-        run_as_user: "rstudio-pm"
-        runs_as_group: "rstudio-pm"
-
+        run_as_user: "root"
+        runs_as_group: "root"

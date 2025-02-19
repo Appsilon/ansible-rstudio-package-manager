@@ -1,0 +1,4 @@
+# vars file
+---
+rstudio_package_manager_run_as_user: "root"
+rstudio_package_manager_run_as_group: "root"
