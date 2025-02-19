@@ -3,6 +3,9 @@
 rstudio_package_manager_version: "2022.11.4-20"
 rstudio_package_manager_install: []
 
+rstudio_package_manager_run_as_user: "rstudio-pm"
+rstudio_package_manager_run_as_group: "rstudio-pm"
+
 rstudio_package_manager_enable_repositories: false
 rstudio_package_manager_enable_cran_repositories: false
 rstudio_package_manager_enable_git_repositories: false
