@@ -9,7 +9,7 @@
     mode: 0600
   when:
     - rstudio_encryption_key is defined
-    - rstudio_encryption_key|length
+    - rstudio_encryption_key|length > 0
   tags:
     - rstudio-package-manager-encryption-key
 
@@ -66,7 +66,7 @@
 
 - name: Configure | license activation (offline)
   notify: Restart rstudio-package-manager
-  when: rstudio_package_manager_license_offline_key_b64_encoded | d()
+  when: rstudio_package_manager_license_offline_key_b64_encoded | d() | length > 0
   no_log: true
   block:
     - name: License activation (offline) | upload key file
@@ -85,6 +85,6 @@
   ansible.builtin.shell: |
     /opt/rstudio-pm/bin/license-manager activate {{ rstudio_package_manager_license }}
   notify: Restart rstudio-package-manager
-  when: rstudio_package_manager_license | d()
+  when: rstudio_package_manager_license | d() | length > 0
   register: license_output
   no_log: true

@@ -2,7 +2,7 @@
 ---
 galaxy_info:
   role_name: rstudio_package_manager
-  author: shmileee
+  author: appsilon
   company: Appsilon
   description: Set up (the latest version of) RStudio Package Manager in Debian-like systems
   license: MIT
