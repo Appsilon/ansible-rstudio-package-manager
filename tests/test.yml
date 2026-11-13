@@ -8,7 +8,7 @@
     - name: Include vars
       ansible.builtin.include_vars: "{{ playbook_dir }}/vars/main.yml"
   roles:
-    - ../../
+    - appsilon.rstudio_package_manager
   post_tasks:
     - name: Include tasks
       ansible.builtin.include_tasks: "{{ playbook_dir }}/tasks/post.yml"
